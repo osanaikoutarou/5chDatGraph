@@ -15,11 +15,28 @@ class ViewController: UIViewController {
         
         FileReader.shared.read()
 
-        for res in FileReader.shared.reses {
-            if res.dateTime > date(string: "2018/11/01 01:10:10") {
-                print("こえた!")
+        // 2018/09/28(金) 08:57:57.48
+        
+        let start = date(string: "2018/09/28 08:00:00")
+        var kijun = start
+        var prevIndex = 0
+
+        while (true) {
+            for i in max(0,prevIndex-400)..<FileReader.shared.reses.count {
+                let res = FileReader.shared.reses[i]
+                
+                if res.dateTime > kijun {
+//                    print(res.resNumAll)
+                    print("\(res.threadNum)の\(res.resNum)")
+                    prevIndex = i
+                    break
+                }
+            }
+            kijun = Date(timeInterval: 3600 * 2, since: kijun)
+            if kijun > date(string: "2018/11/01 00:00:00") {
                 break
             }
+            print(kijun)
         }
     }
     
