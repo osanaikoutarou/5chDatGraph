@@ -12,6 +12,8 @@ class FileReader: NSObject {
     
     static let shared = FileReader()
     
+    // 1スレの1番 2018/09/28(金) 08:57:57.48
+    // 80スレに不備
     let files = """
     001_1538092677.dat
     002_1538826760.dat
@@ -147,8 +149,10 @@ class FileReader: NSObject {
             
             if let filepath = Bundle.main.path(forResource: fileNameHead, ofType: "dat") {
                 do {
-                    let contents = try String(contentsOfFile: filepath, encoding: .shiftJIS)
-                    let rowStrings = contents.components(separatedBy: .newlines)[0..<1000]
+                    let contents = try String(contentsOfFile: filepath, encoding: .utf8)
+                    let wk = contents.components(separatedBy: .newlines)
+                    print(wk.count)
+                    let rowStrings = wk[0..<min(1000,wk.count)]
                     
                     for (resNum, row) in rowStrings.enumerated() {
                         let newRes = Res()
@@ -156,8 +160,12 @@ class FileReader: NSObject {
                         newRes.threadNum = index + 1
                         newRes.resNum = resNum + 1
                         reses.append(newRes)
-                        newRes.printAll()
+//                        newRes.printAll()
+                        
+                        
                     }
+                    
+                    print("\(index)")
                 } catch {
                     print("Error info: \(error)")
                 }
