@@ -160,9 +160,6 @@ class FileReader: NSObject {
                         newRes.threadNum = index + 1
                         newRes.resNum = resNum + 1
                         reses.append(newRes)
-//                        newRes.printAll()
-                        
-                        
                     }
                     
                     print("\(index)")
