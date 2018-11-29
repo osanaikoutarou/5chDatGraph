@@ -19,13 +19,42 @@ class Res: NSObject {
     var timeStr:String? {
         return raw.capture(pattern: "\\d{4}/\\d{1,2}/\\d{1,2}...............", group: 0)
     }
+    var dateTimeStr:String? {
+        guard let timeStr = timeStr else {
+            return ""
+        }
+        let ds = String(timeStr.prefix(10))
+        let ts = timeStr[timeStr.index(timeStr.endIndex, offsetBy: -11)...]
+        let dsts = ds + " " + String(ts.prefix(8))
+        return dsts
+    }
+    var dateTime:Date {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        f.locale = Locale(identifier: "ja_JP")
+        let dts = dateTimeStr!
+        let result = f.date(from: dts)!
+        return result
+    }
+    func dateToString(_ date:Date) -> String {
+        let dateFormater = DateFormatter()
+        dateFormater.locale = Locale(identifier: "ja_JP")
+        dateFormater.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        return dateFormater.string(from: date)
+    }
     
     func printAll() {
-        print("\(threadNum)スレの\(resNum)番 \(String(describing: timeStr)!)")
+        if let timeStr = timeStr {
+            print("\(threadNum)スレの\(resNum)番 \(timeStr)")
+            print("--")
+            print(dateToString(dateTime))
+        }
     }
     
     
 }
+
+
 
 
 extension String {
